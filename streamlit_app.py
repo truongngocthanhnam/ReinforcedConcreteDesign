@@ -9,7 +9,7 @@ st.header("Input Parameters")
 
 # Section dimensions
 width = st.number_input("Width (m)", min_value=0, format="%d", value=1000)
-height = st.number_input("Height (m)", min_value=0, format="%d", value=1500)
+height = st.number_input("Height (m)", min_value=0, format="%d", value=1200)
 
 # Rebar arrangement
 st.subheader("Rebar Arrangement")
@@ -17,18 +17,18 @@ cover = st.number_input("Cover (mm)", min_value=0, format="%d", value=65)
 s12 = st.number_input("Distance between 2 layers", min_value=0, format="%d", value=70)
 
 st.subheader("Layer 1")
-n1 = st.number_input("Number of rebars in Layer 1", min_value=0, format="%d", value=10)
+n1 = st.number_input("Number of rebars in Layer 1", min_value=0, format="%d", value=6)
 d1 = st.number_input("Diameter of rebars in Layer 1 (mm)", min_value=0, format="%d", value=20)
 
 st.subheader("Layer 2")
-n2 = st.number_input("Number of rebars in Layer 2", min_value=0, format="%d", value=10)
+n2 = st.number_input("Number of rebars in Layer 2", min_value=0, format="%d", value=2)
 d2 = st.number_input("Diameter of rebars in Layer 2 (mm)", min_value=0, format="%d", value=20)
 
 st.subheader("Shear Link")
-dlink = st.number_input("Diameter of shear link", min_value=0, format="%d", value=12)
+dlink = st.number_input("Diameter of shear link", min_value=0, format="%d", value=16)
 
 # Internal force
-M = st.number_input("Bending moment (kN.m)", min_value=0.0, format="%.2f", value=500.0)
+M = st.number_input("Bending moment (kN.m)", min_value=0.0, format="%.2f", value=1000.0)
 
 # Material properties
 st.subheader("Material Properties")
@@ -37,7 +37,7 @@ fyk = st.number_input("Steel yield strength (fyk) (MPa)", min_value=0.0, format=
 
 if st.button("Calculate"):
     # Calculation section
-    st.header("Output")
+
 
     # Placeholder for calculations
     as_required = 0.0  # Placeholder for required reinforcement area
@@ -79,13 +79,22 @@ if st.button("Calculate"):
     utilization = as_required / as_provided
     conclusion = "OK" if utilization <= 1 else "Not OK"
     # Display results
+    st.header("Calculation")
     st.write(f"The value of the design compressive strength fcd: {fcd:.2f} MPa")
     st.write(f"Design yield strength of reinforcement fyd: {fyd:.2f} MPa") 
     st.write(f"Distance from tension fiber to centroid of tension bars y: {y:.2f} mm")
     st.write(f"Effective depth d: {d:.2f} mm")
     st.write(f"Lever arm of internal forces z: {z:.2f} mm")
     st.write(f"K: {K:.3f} ")
-    st.write(f"As required: {as_required:.2f} mm²")
-    st.write(f"As provided: {as_provided:.2f} mm²")
-    st.write(f"Utilization: {utilization:.2%}")
-    st.write(f"Conclusion: {conclusion}")
+    
+    st.header("Results")
+    if utilization > 1:
+        st.write(f"As required: {as_required:.2f} mm²")
+        st.write(f"As provided: {as_provided:.2f} mm²")
+        st.error(f"Utilization: {utilization:.2%}")
+        st.error(f"Conclusion: {conclusion}")   
+    else:
+        st.write(f"As required: {as_required:.2f} mm²")
+        st.write(f"As provided: {as_provided:.2f} mm²")
+        st.success(f"Utilization: {utilization:.2%}")
+        st.success(f"Conclusion: {conclusion}")    
