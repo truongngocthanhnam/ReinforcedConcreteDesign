@@ -27,13 +27,15 @@ d2 = st.number_input("Diameter of rebars in Layer 2 (mm)", min_value=0, format="
 st.subheader("Shear Link")
 dlink = st.number_input("Diameter of shear link", min_value=0, format="%d", value=16)
 
-# Internal force
-M = st.number_input("Bending moment (kN.m)", min_value=0.0, format="%.2f", value=1000.0)
 
 # Material properties
 st.subheader("Material Properties")
 fck = st.number_input("Concrete strength (fck) (MPa)", min_value=0.0, format="%.1f", value=35.0)
 fyk = st.number_input("Steel yield strength (fyk) (MPa)", min_value=0.0, format="%.1f", value=500.0)
+
+# Internal force
+st.subheader("Internal Force")
+M = st.number_input("Bending moment (kN.m)", min_value=0.0, format="%.2f", value=1000.0)
 
 if st.button("Calculate"):
     # Calculation section
